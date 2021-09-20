@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 public class Poll {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
     private String question;
     private int accessCode;

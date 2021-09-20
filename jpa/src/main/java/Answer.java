@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Data
 public class Answer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
     private boolean answer;
 
