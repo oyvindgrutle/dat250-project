@@ -21,5 +21,5 @@ public class Poll {
     private final List<Answer> answers = new ArrayList<>();
 
     @ManyToOne
-    private User user;
+    private PollUser pollUser;
 }

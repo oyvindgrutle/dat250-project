@@ -5,11 +5,11 @@
   <persistence-unit name="polls" transaction-type="RESOURCE_LOCAL">
     <class>Poll</class>
     <class>Answer</class>
-    <class>User</class>
+    <class>PollUser</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
       <property name="javax.persistence.jdbc.url"
-                value="jdbc:derby:/home/bo/docs/skole/dat250/project/db;create=true"/>
+                value="jdbc:derby:C:/Users/jensa/Documents/H21/dat250/project/databases/db;create=true"/>
       <property name="javax.persistence.jdbc.user" value="test"/>
       <property name="javax.persistence.jdbc.password" value="test"/>
 

@@ -1,8 +1,6 @@
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
-import java.util.List;
 
 public class Main {
 
@@ -22,19 +20,23 @@ public class Main {
         */
 
         em.getTransaction().begin();
-        User user = new User();
-        user.setUsername("bo");
-        user.setAdmin(true);
-        user.setName("Bo Aanes");
-        em.persist(user);
-        em.getTransaction().commit();
 
-        em.getTransaction().begin();
+        PollUser pollUser = new PollUser();
+        pollUser.setUsername("bo");
+        pollUser.setAdmin(true);
+        pollUser.setName("Bo Aanes");
+        em.persist(pollUser);
+
+
         Poll poll = new Poll();
         poll.setQuestion("Kor dum e Øyvind?");
         poll.setPublic(true);
-        poll.setUser(user);
+        poll.setPollUser(pollUser);
         em.persist(poll);
+        pollUser.getPolls().add(poll);
+        em.persist(poll);
+        em.persist(pollUser);
+
         em.getTransaction().commit();
 
         em.close();

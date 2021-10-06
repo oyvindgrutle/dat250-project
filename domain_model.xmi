@@ -36,7 +36,7 @@
         <UML:DataType isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uxNwdLBxxJBSx" name="wchar_t" namespace="Datatypes" visibility="public"/>
        </UML:Namespace.ownedElement>
       </UML:Package>
-      <UML:Class isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uvvBue4G1tJJL" name="user" namespace="Logical_View" visibility="public">
+      <UML:Class isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uvvBue4G1tJJL" name="pollUser" namespace="Logical_View" visibility="public">
        <UML:Classifier.feature>
         <UML:Attribute isSpecification="false" xmi.id="uFZFePUEoe6OI" name="id" visibility="private" type="u2D4gjZax7Pg0"/>
         <UML:Attribute isSpecification="false" xmi.id="uviYqzqTLiqdu" name="username" visibility="private" type="ubE2NEKaR6ytK"/>
