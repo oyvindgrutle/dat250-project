@@ -9,11 +9,11 @@
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
       <property name="javax.persistence.jdbc.url"
-                value="jdbc:derby:C:/Users/jensa/Documents/H21/dat250/project/databases/db;create=true"/>
+                value="jdbc:derby:C:/Users/jensa/Documents/H21/dat250/project/dat250-project/jpa/poll_db;create=true"/>
       <property name="javax.persistence.jdbc.user" value="test"/>
       <property name="javax.persistence.jdbc.password" value="test"/>
 
-      <property name="eclipselink.ddl-generation" value="create-tables"/>
+      <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
       <property name="eclipselink.ddl-generation.output-mode" value="database"/>
     </properties>
   </persistence-unit>
