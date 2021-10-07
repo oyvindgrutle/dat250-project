@@ -1,3 +1,6 @@
+import jpa.Poll;
+import jpa.PollUser;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -11,9 +14,9 @@ public class Main {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
         /*
-        Query q = em.createQuery("select p from Poll p");
-        List<Poll> polls = q.getResultList();
-        for (Poll poll : polls) {
+        Query q = em.createQuery("select p from jpa.Poll p");
+        List<jpa.Poll> polls = q.getResultList();
+        for (jpa.Poll poll : polls) {
             System.out.println(poll);
         }
         System.out.println("Size: " + polls.size());

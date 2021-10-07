@@ -1,3 +1,5 @@
+package jpa;
+
 import lombok.Data;
 
 import javax.persistence.*;

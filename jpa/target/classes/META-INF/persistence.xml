@@ -3,13 +3,13 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
   <persistence-unit name="polls" transaction-type="RESOURCE_LOCAL">
-    <class>Poll</class>
-    <class>Answer</class>
-    <class>PollUser</class>
+    <class>jpa.Poll</class>
+    <class>jpa.Answer</class>
+    <class>jpa.PollUser</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
       <property name="javax.persistence.jdbc.url"
-                value="jdbc:derby:C:/Users/jensa/Documents/H21/dat250/project/dat250-project/jpa/poll_db;create=true"/>
+                value="jdbc:derby:${basedir}/poll_db;create=true"/>
       <property name="javax.persistence.jdbc.user" value="test"/>
       <property name="javax.persistence.jdbc.password" value="test"/>
 
