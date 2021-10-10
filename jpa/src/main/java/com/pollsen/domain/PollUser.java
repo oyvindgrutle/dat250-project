@@ -1,4 +1,4 @@
-package jpa;
+package com.pollsen.domain;
 
 import lombok.Data;
 
@@ -18,4 +18,13 @@ public class PollUser {
 
     @OneToMany(mappedBy = "pollUser")
     private final List<Poll> polls = new ArrayList<>();
+
+    public PollUser() {}
+
+    public PollUser(String username, String name, boolean admin) {
+        this.username = username;
+        this.name = name;
+        this.admin = admin;
+    }
+
 }

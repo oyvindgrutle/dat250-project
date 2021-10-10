@@ -1,11 +1,10 @@
-import jpa.Poll;
-import jpa.PollUser;
-import jpa.PollUserDAO;
+import com.pollsen.domain.Poll;
+import com.pollsen.domain.PollUser;
+import com.pollsen.domain.PollUserDAO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 import java.util.List;
 
 public class Main {

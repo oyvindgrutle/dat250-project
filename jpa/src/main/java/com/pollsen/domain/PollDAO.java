@@ -1,4 +1,4 @@
-package jpa;
+package com.pollsen.domain;
 
 import java.util.List;
 
