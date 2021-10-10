@@ -12,17 +12,44 @@ public class PollUserDAO {
     private static final String PERSISTENCE_UNIT_NAME = "polls";
     private static EntityManagerFactory factory;
 
-    public void insertUser(PollUser pollUser) {
+    public static void insertUser(PollUser pollUser) {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+
+        em.getTransaction().begin();
+        em.persist(pollUser);
+        em.getTransaction().commit();
+    }
+
+    public static void updateUser(PollUser pollUser) {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+
+        em.getTransaction().begin();
+        em.remove(pollUser);
+        em.persist(pollUser);
+        em.getTransaction().commit();
 
     }
 
-    public void updateUser(PollUser pollUser) {
+    public static void deleteUser(PollUser pollUser) {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
 
+        em.getTransaction().begin();
+        em.remove(pollUser);
+        em.getTransaction().commit();
     }
 
-    public void deleteUser(PollUser pollUser) {
+    public static void deleteAll() {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
 
+        em.getTransaction().begin();
+        em.clear();
+        em.getTransaction().commit();
     }
+
 
     public static List<PollUser> getAll() {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -35,13 +62,5 @@ public class PollUserDAO {
         em.close();
 
         return users;
-    }
-
-    public PollUser getUser(PollUser pollUser) {
-        return null;
-    }
-
-    public PollUser getUserById(Long id) {
-        return null;
     }
 }

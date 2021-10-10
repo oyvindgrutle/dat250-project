@@ -6,8 +6,8 @@ import java.util.Optional;
 
 import com.pollsen.domain.Poll;
 import com.pollsen.domain.PollUser;
+import com.pollsen.domain.PollUserDAO;
 import com.pollsen.repository.PollUserRepository;
-import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,10 +60,12 @@ public class PollController {
                         pollUser.setUsername(newPollUser.getUsername());
                         pollUser.setName(newPollUser.getName());
                         pollUser.setAdmin(newPollUser.isAdmin());
+                        //PollUserDAO.updateUser(pollUser);
                         return pollUserRepository.save(pollUser);
                     })
                     .orElseGet(() -> {
                         newPollUser.setId(id);
+                        //PollUserDAO.insertUser(newPollUser);
                         return pollUserRepository.save(newPollUser);
                     }), HttpStatus.OK);
         } catch (Exception e) {
@@ -73,11 +75,12 @@ public class PollController {
 
 
     @PostMapping("/users")
-    public ResponseEntity<PollUser> createTutorial(@RequestBody PollUser pollUser) {
+    public ResponseEntity<PollUser> createTutorial(@RequestBody PollUser newPollUser) {
         try {
-            PollUser _pollUser = pollUserRepository
-                    .save(pollUser);
-            return new ResponseEntity<>(_pollUser, HttpStatus.CREATED);
+            PollUser pollUser = pollUserRepository
+                    .save(newPollUser);
+            PollUserDAO.insertUser(newPollUser);
+            return new ResponseEntity<>(pollUser, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -86,6 +89,7 @@ public class PollController {
     @DeleteMapping("/users/{id}")
     public ResponseEntity<HttpStatus> deletePollUser(@PathVariable Long id) {
         try {
+            PollUserDAO.deleteUser(pollUserRepository.findById(id).get());
             pollUserRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
@@ -98,6 +102,7 @@ public class PollController {
     public ResponseEntity<HttpStatus> deleteAllPollUsers() {
         try {
             pollUserRepository.deleteAll();
+            PollUserDAO.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
