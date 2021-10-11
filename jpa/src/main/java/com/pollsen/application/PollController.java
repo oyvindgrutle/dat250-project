@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 
 @RestController
 public class PollController {
@@ -79,7 +80,7 @@ public class PollController {
         try {
             PollUser pollUser = pollUserRepository
                     .save(newPollUser);
-            PollUserDAO.insertUser(newPollUser);
+            //PollUserDAO.insertUser(newPollUser);
             return new ResponseEntity<>(pollUser, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -89,7 +90,7 @@ public class PollController {
     @DeleteMapping("/users/{id}")
     public ResponseEntity<HttpStatus> deletePollUser(@PathVariable Long id) {
         try {
-            PollUserDAO.deleteUser(pollUserRepository.findById(id).get());
+            //PollUserDAO.deleteUser(pollUserRepository.findById(id).get());
             pollUserRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
@@ -102,7 +103,7 @@ public class PollController {
     public ResponseEntity<HttpStatus> deleteAllPollUsers() {
         try {
             pollUserRepository.deleteAll();
-            PollUserDAO.deleteAll();
+            //PollUserDAO.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
