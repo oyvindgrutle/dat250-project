@@ -59,15 +59,6 @@ public class PollUserDAO {
         em.getTransaction().commit();
     }
 
-    public static void deleteAll() {
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager em = factory.createEntityManager();
-
-        em.getTransaction().begin();
-        em.clear();
-        em.getTransaction().commit();
-    }
-
 
     public static List<PollUser> getAll() {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);

@@ -11,16 +11,32 @@ public class PollDAO {
     private static final String PERSISTENCE_UNIT_NAME = "polls";
     private static EntityManagerFactory factory;
 
-    public void insertPoll(Poll poll) {
-
-    }
-
-    public void updatePoll(Poll poll) {
+    public static void insertPoll(Poll poll) {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
 
+        em.getTransaction().begin();
+        em.persist(poll);
+        em.getTransaction().commit();
+    }
 
+    public static void updatePoll(Poll poll) {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
 
+        em.getTransaction().begin();
+        em.remove(poll);
+        em.persist(poll);
+        em.getTransaction().commit();
+    }
+
+    public static void deletePoll(Poll poll) {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+
+        em.getTransaction().begin();
+        em.remove(poll);
+        em.getTransaction().commit();
     }
 
     public static List<Poll> getAll() {
@@ -35,18 +51,5 @@ public class PollDAO {
 
         return polls;
     }
-
-    public Poll getPoll(Poll poll) {
-        return null;
-    }
-
-    public Poll getPollById(long id) {
-        return null;
-    }
-
-    public List<Answer> getPollAnswers(Poll poll) {
-        return null;
-    }
-
 
 }
