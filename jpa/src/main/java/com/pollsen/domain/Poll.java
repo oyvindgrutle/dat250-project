@@ -1,4 +1,4 @@
-package jpa;
+package com.pollsen.domain;
 
 import lombok.Data;
 
@@ -24,4 +24,13 @@ public class Poll {
 
     @ManyToOne
     private PollUser pollUser;
+
+    public Poll() { }
+
+    public Poll(String question, boolean isPublic, PollUser pollUser){
+        this.question = question;
+        this.isPublic = isPublic;
+        this.pollUser = pollUser;
+    }
+
 }

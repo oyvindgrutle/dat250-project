@@ -1,9 +1,11 @@
-import jpa.Poll;
-import jpa.PollUser;
+import com.pollsen.domain.Poll;
+import com.pollsen.domain.PollUser;
+import com.pollsen.domain.PollUserDAO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class Main {
 
@@ -11,6 +13,10 @@ public class Main {
     private static EntityManagerFactory factory;
 
     public static void main(String[] args) {
+        // Add this to you presistence.xml if the database does not already exist:
+        // <property name="eclipselink.ddl-generation" value="create-tables"/>
+
+
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
         /*
@@ -41,6 +47,14 @@ public class Main {
         em.persist(pollUser);
 
         em.getTransaction().commit();
+
+        List<PollUser> users = PollUserDAO.getAll();
+        for (PollUser user :
+                users) {
+            System.out.println(user.getName());
+            System.out.println(user.getPolls().get(0).getQuestion());
+        }
+        System.out.println(users.size());
 
         em.close();
     }
