@@ -13,12 +13,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 
-@Service
-@Transactional
 public class PollUserDAO {
-
-    @Autowired
-    private PollUserRepository pollUserRepository;
 
 
     private static final String PERSISTENCE_UNIT_NAME = "polls";
