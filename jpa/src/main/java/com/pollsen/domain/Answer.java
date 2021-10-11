@@ -14,4 +14,12 @@ public class Answer {
 
     @ManyToOne
     private Poll poll;
+
+    public Answer() { }
+
+    public Answer(boolean answer, Poll poll) {
+        this.answer = answer;
+        this.poll = poll;
+    }
+
 }

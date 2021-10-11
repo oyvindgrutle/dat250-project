@@ -1,9 +1,7 @@
 package com.pollsen.application;
 
-import com.pollsen.domain.Poll;
-import com.pollsen.domain.PollDAO;
-import com.pollsen.domain.PollUser;
-import com.pollsen.domain.PollUserDAO;
+import com.pollsen.domain.*;
+import com.pollsen.repository.AnswerRepository;
 import com.pollsen.repository.PollRepository;
 import com.pollsen.repository.PollUserRepository;
 import org.slf4j.Logger;
@@ -20,14 +18,17 @@ class LoadDatabase {
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Bean
-    CommandLineRunner initDatabase(PollUserRepository repository, PollRepository pollRepository) {
+    CommandLineRunner initDatabase(PollUserRepository repository, PollRepository pollRepository,
+                                   AnswerRepository answerRepository) {
 
         return args -> {
             //log.info("Preloading all existing users " + repository.saveAll(PollUserDAO.getAll()));
             //log.info("Preloading all existing polls " + pollRepository.saveAll(PollDAO.getAll()));
             PollUser user1 = new PollUser("oyvind", "Oyvind Grutle", false);
+            Poll poll1 = new Poll("test poll", false, user1);
             log.info("Preloading " + repository.save(user1));
-            log.info("Preloading " + pollRepository.save(new Poll("test poll", false, user1)));
+            log.info("Preloading " + pollRepository.save(poll1));
+            log.info("Preloading " + answerRepository.save(new Answer(true, poll1)));
 
         };
     }
