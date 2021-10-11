@@ -25,7 +25,9 @@ class LoadDatabase {
         return args -> {
             //log.info("Preloading all existing users " + repository.saveAll(PollUserDAO.getAll()));
             //log.info("Preloading all existing polls " + pollRepository.saveAll(PollDAO.getAll()));
-            log.info("Preloading " + repository.save(new PollUser("oyvind", "Oyvind Grutle", false)));
+            PollUser user1 = new PollUser("oyvind", "Oyvind Grutle", false);
+            log.info("Preloading " + repository.save(user1));
+            log.info("Preloading " + pollRepository.save(new Poll("test poll", false, user1)));
 
         };
     }
