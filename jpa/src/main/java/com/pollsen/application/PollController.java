@@ -87,7 +87,7 @@ public class PollController {
         try {
             PollUser pollUser = pollUserRepository
                     .save(newPollUser);
-            //PollUserDAO.insertUser(newPollUser);
+            PollUserDAO.insertUser(newPollUser);
             return new ResponseEntity<>(pollUser, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
