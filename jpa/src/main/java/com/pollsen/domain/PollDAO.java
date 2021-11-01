@@ -26,7 +26,7 @@ public class PollDAO {
 
         em.getTransaction().begin();
         em.remove(poll);
-        em.persist(poll);
+        em.persist(poll);   
         em.getTransaction().commit();
     }
 
