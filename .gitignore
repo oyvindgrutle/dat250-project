@@ -2,6 +2,8 @@
 *.class
 
 jpa/target
+jpa/.mvn
+jpa/.idea
 
 # Log file
 *.log
