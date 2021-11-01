@@ -3,6 +3,7 @@ import React from 'react';
 import { Switch, Route, Router } from 'react-router-dom';
 import CodeBox from './components/CodeBox';
 import Header from './components/Header';
+import NotFound from './components/NotFound';
 import Poll from './components/Poll';
 import SignIn from './components/SignIn';
 
@@ -21,6 +22,9 @@ const App = (): JSX.Element => (
             </Route>
             <Route exact path="/">
                 <CodeBox />
+            </Route>
+            <Route>
+                <NotFound />
             </Route>
         </Switch>
     </Box>
