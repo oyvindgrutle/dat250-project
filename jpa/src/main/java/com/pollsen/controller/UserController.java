@@ -1,8 +1,7 @@
 package com.pollsen.controller;
 
+import com.pollsen.DTO.PollUserDTO;
 import com.pollsen.domain.PollUser;
-import com.pollsen.domain.PollUserDAO;
-import com.pollsen.repository.PollUserRepository;
 import com.pollsen.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +18,8 @@ public class UserController {
     UserService userService;
 
     @GetMapping("users")
-    public ResponseEntity<List<PollUser>> getAllUsers(@RequestParam(required = false) String username) {
-        List<PollUser> pollUsers;
+    public ResponseEntity<List<PollUserDTO>> getAllUsers(@RequestParam(required = false) String username) {
+        List<PollUserDTO> pollUsers;
 
         try {
             if (username == null)
@@ -39,11 +38,11 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<PollUser> getPollUserById(@PathVariable Long id) {
-        Optional<PollUser> pollUserData = userService.getUserById(id);
+    public ResponseEntity<PollUserDTO> getPollUserById(@PathVariable Long id) {
+        PollUserDTO pollUser = userService.getUserDTOById(id);
 
-        if (pollUserData.isPresent()) {
-            return new ResponseEntity<>(pollUserData.get(), HttpStatus.OK);
+        if (!pollUser.equals(null)) {
+            return new ResponseEntity<>(pollUser, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

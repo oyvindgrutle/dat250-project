@@ -2,16 +2,14 @@ package com.pollsen.service;
 
 
 import com.pollsen.domain.Answer;
-import com.pollsen.domain.PollUser;
 import com.pollsen.repository.AnswerRepository;
-import org.aspectj.weaver.ast.And;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Service
 public class AnswerService {
     @Autowired
     AnswerRepository answerRepository;
@@ -35,6 +33,10 @@ public class AnswerService {
     public Optional<Answer> getAnswerById(long id) {
         Optional<Answer> optionalAnswer = answerRepository.findById(id);
         return optionalAnswer;
+    }
+
+    public List<Answer> getAnswerByPollId(long id) {
+        return answerRepository.findByPollId(id);
     }
 
 }

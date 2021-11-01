@@ -1,5 +1,6 @@
 package com.pollsen.controller;
 
+import com.pollsen.DTO.PollDTO;
 import com.pollsen.domain.Poll;
 import com.pollsen.repository.PollRepository;
 import com.pollsen.service.PollService;
@@ -19,8 +20,8 @@ public class PollController {
     PollService pollService;
 
     @GetMapping("/polls")
-    public ResponseEntity<List<Poll>> getAllPolls(@RequestParam(required = false) AtomicInteger accessCode) {
-        List<Poll> polls;
+    public ResponseEntity<List<PollDTO>> getAllPolls(@RequestParam(required = false) AtomicInteger accessCode) {
+        List<PollDTO> polls;
 
         try {
             if (accessCode == null)
@@ -39,11 +40,11 @@ public class PollController {
     }
 
     @GetMapping("/polls/{id}")
-    public ResponseEntity<Poll> getPollById(@PathVariable Long id) {
-        Optional<Poll> pollData = pollService.getPollById(id);
+    public ResponseEntity<PollDTO> getPollById(@PathVariable Long id) {
+        PollDTO pollData = pollService.getPollDTOById(id);
 
-        if (pollData.isPresent()) {
-            return new ResponseEntity<>(pollData.get(), HttpStatus.OK);
+        if (!pollData.equals(null)) {
+            return new ResponseEntity<>(pollData, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
