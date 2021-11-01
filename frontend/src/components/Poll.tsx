@@ -1,20 +1,14 @@
 import { Center, Flex, Heading, Spinner } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchPoll } from '../api/api';
+import { fetchPoll, postAnswer, Poll as IPoll, Answer } from './api';
 import { getLocalStorageItem, setLocalStorageItem } from '../utils';
 import AnswerButton from './AnswerButton';
+import ResultOverview from './ResultsOverview';
 import Section from './Section';
 
 interface UrlParam {
     id: string;
-}
-
-interface Poll {
-    id: number;
-    question: string;
-    startTime: string;
-    endTime: string;
 }
 
 const getHasVoted = (id: string): boolean => {
@@ -25,13 +19,25 @@ const getHasVoted = (id: string): boolean => {
 const Poll = () => {
     const { id } = useParams<UrlParam>();
 
-    const [poll, setPoll] = useState<Poll | null>(null);
+    const [poll, setPoll] = useState<IPoll | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [hasVoted, setHasVoted] = useState<boolean>(getHasVoted(id));
 
-    const handleVote = (choice: 'yes' | 'no') => {
-        setHasVoted(true);
-        setLocalStorageItem(`hasVoted_${id}`, 'true');
+    const handleVote = (choice: boolean) => {
+        const answer = {
+            answer: choice,
+            poll: {
+                id: id,
+            },
+        };
+        const postData = async () => {
+            const response = await postAnswer(answer);
+            if (response.ok) {
+                setHasVoted(true);
+                setLocalStorageItem(`hasVoted_${id}`, 'true');
+            }
+        };
+        postData();
     };
 
     useEffect(() => {
@@ -57,25 +63,22 @@ const Poll = () => {
                         <Spinner />
                     </Center>
                 )}
-                {poll && !hasVoted && (
+                {poll && (
                     <>
-                        <Heading color="red.500" textAlign="center">
+                        <Heading mb="2rem" color="red.500" textAlign="center">
                             {poll.question}
                         </Heading>
-                        <Flex
-                            gridGap="1rem"
-                            bg="gray.100"
-                            p="1rem"
-                            mt="2rem"
-                            alignItems="center"
-                            justifyContent="center"
-                        >
-                            <AnswerButton onClick={() => handleVote('yes')} buttonType="yes" />
-                            <AnswerButton onClick={() => handleVote('no')} buttonType="no" />
-                        </Flex>
+                        {!hasVoted && (
+                            <>
+                                <Flex gridGap="1rem" bg="gray.100" p="1rem" alignItems="center" justifyContent="center">
+                                    <AnswerButton onClick={() => handleVote(true)} buttonType="yes" />
+                                    <AnswerButton onClick={() => handleVote(false)} buttonType="no" />
+                                </Flex>
+                            </>
+                        )}
+                        {hasVoted && <ResultOverview numYes={poll.numYes} numNo={poll.numNo} />}
                     </>
                 )}
-                {poll && hasVoted && <p>you have voted</p>}
             </Section>
         </Center>
     );
