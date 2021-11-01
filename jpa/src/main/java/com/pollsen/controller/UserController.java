@@ -3,6 +3,7 @@ package com.pollsen.controller;
 import com.pollsen.domain.PollUser;
 import com.pollsen.domain.PollUserDAO;
 import com.pollsen.repository.PollUserRepository;
+import com.pollsen.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    PollUserRepository pollUserRepository;
+    UserService userService;
 
     @GetMapping("users")
     public ResponseEntity<List<PollUser>> getAllUsers(@RequestParam(required = false) String username) {
@@ -23,9 +24,9 @@ public class UserController {
 
         try {
             if (username == null)
-                pollUsers = (List<PollUser>) pollUserRepository.findAll();
+                pollUsers = userService.getUsers();
             else
-                pollUsers = pollUserRepository.findByUsername(username);
+                pollUsers = userService.getUsers(username);
 
             if (pollUsers.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -39,7 +40,7 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public ResponseEntity<PollUser> getPollUserById(@PathVariable Long id) {
-        Optional<PollUser> pollUserData = pollUserRepository.findById(id);
+        Optional<PollUser> pollUserData = userService.getUserById(id);
 
         if (pollUserData.isPresent()) {
             return new ResponseEntity<>(pollUserData.get(), HttpStatus.OK);
@@ -51,18 +52,17 @@ public class UserController {
     @PutMapping("/users/{id}")
     public ResponseEntity<PollUser> updatePollUser(@RequestBody PollUser newPollUser, @PathVariable Long id) {
         try {
-            return new ResponseEntity<>(pollUserRepository.findById(id)
+            return new ResponseEntity<>(userService.getUserById(id)
                     .map(pollUser -> {
                         pollUser.setUsername(newPollUser.getUsername());
                         pollUser.setName(newPollUser.getName());
                         pollUser.setAdmin(newPollUser.isAdmin());
-                        //PollUserDAO.updateUser(pollUser);
-                        return pollUserRepository.save(pollUser);
+
+                        return userService.add(pollUser);
                     })
                     .orElseGet(() -> {
                         newPollUser.setId(id);
-                        //PollUserDAO.insertUser(newPollUser);
-                        return pollUserRepository.save(newPollUser);
+                        return userService.add(newPollUser);
                     }), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -72,9 +72,8 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<PollUser> createPollUser(@RequestBody PollUser newPollUser) {
         try {
-            PollUser pollUser = pollUserRepository
-                    .save(newPollUser);
-            PollUserDAO.insertUser(newPollUser);
+            PollUser pollUser = userService
+                    .add(newPollUser);
             return new ResponseEntity<>(pollUser, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -85,7 +84,7 @@ public class UserController {
     public ResponseEntity<HttpStatus> deletePollUser(@PathVariable Long id) {
         try {
             //PollUserDAO.deleteUser(pollUserRepository.findById(id).get());
-            pollUserRepository.deleteById(id);
+            userService.delete(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -96,8 +95,7 @@ public class UserController {
     @DeleteMapping("/users")
     public ResponseEntity<HttpStatus> deleteAllPollUsers() {
         try {
-            pollUserRepository.deleteAll();
-            //PollUserDAO.deleteAll();
+            userService.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

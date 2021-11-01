@@ -2,6 +2,7 @@ package com.pollsen.controller;
 
 import com.pollsen.domain.Poll;
 import com.pollsen.repository.PollRepository;
+import com.pollsen.service.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +15,14 @@ import java.util.Optional;
 public class PollController {
 
     @Autowired
-    PollRepository pollRepository;
+    PollService pollService;
 
     @GetMapping("/polls")
     public ResponseEntity<List<Poll>> getAllPolls() {
         List<Poll> polls;
 
         try {
-            polls = pollRepository.findAll();
+            polls = pollService.getPolls();
 
             if (polls.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -35,7 +36,7 @@ public class PollController {
 
     @GetMapping("/polls/{id}")
     public ResponseEntity<Poll> getPollById(@PathVariable Long id) {
-        Optional<Poll> pollData = pollRepository.findById(id);
+        Optional<Poll> pollData = pollService.getPollById(id);
 
         if (pollData.isPresent()) {
             return new ResponseEntity<>(pollData.get(), HttpStatus.OK);
@@ -47,17 +48,16 @@ public class PollController {
     @PutMapping("/polls/{id}")
     public ResponseEntity<Poll> updatePoll(@RequestBody Poll newPoll, @PathVariable Long id) {
         try {
-            return new ResponseEntity<>(pollRepository.findById(id)
+            return new ResponseEntity<>(pollService.getPollById(id)
                     .map(poll -> {
                         poll.setQuestion(newPoll.getQuestion());
                         poll.setPublic(newPoll.isPublic());
                         poll.setPollUser(newPoll.getPollUser());
-                        return pollRepository.save(poll);
+                        return pollService.add(poll);
                     })
                     .orElseGet(() -> {
                         newPoll.setId(id);
-                        //PollUserDAO.insertUser(newPollUser);
-                        return pollRepository.save(newPoll);
+                        return pollService.add(newPoll);
                     }), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -67,8 +67,8 @@ public class PollController {
     @PostMapping("/polls")
     public ResponseEntity<Poll> createPoll(@RequestBody Poll newPoll) {
         try {
-            Poll poll = pollRepository
-                    .save(newPoll);
+            Poll poll = pollService
+                    .add(newPoll);
             return new ResponseEntity<>(poll, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -78,7 +78,7 @@ public class PollController {
     @DeleteMapping("/polls/{id}")
     public ResponseEntity<HttpStatus> deletePoll(@PathVariable Long id) {
         try {
-            pollRepository.deleteById(id);
+            pollService.delete(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -89,7 +89,7 @@ public class PollController {
     @DeleteMapping("/polls")
     public ResponseEntity<HttpStatus> deleteAllPolls() {
         try {
-            pollRepository.deleteAll();
+            pollService.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
