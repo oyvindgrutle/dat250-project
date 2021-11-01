@@ -1,6 +1,8 @@
 # Compiled class file
 *.class
 
+jpa/target
+
 # Log file
 *.log
 
