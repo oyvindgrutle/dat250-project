@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Button, ChakraProvider } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
+import React from 'react';
+import { Switch, Route, Router } from 'react-router-dom';
+import CodeBox from './components/CodeBox';
+import Header from './components/Header';
+import Poll from './components/Poll';
 
-const fetchUsers = (): Promise<Response> => {
-    return fetch('http://localhost:8080/users');
-};
-
-const App = (): JSX.Element => {
-    const [users, setUsers] = useState();
-
-    /*
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetchUsers();
-            const users = await response.json();
-            setUsers(users);
-        };
-        fetchData();
-    });
-    */
-
-    return <Button>click me</Button>;
-};
+const App = (): JSX.Element => (
+    <Box h="100vh" bgColor="red.100">
+        <Header />
+        <Switch>
+            <Route exact path="/polls">
+                <Poll />
+            </Route>
+            <Route path="/polls/:id">
+                <Poll />
+            </Route>
+            <Route exact path="/">
+                <CodeBox />
+            </Route>
+        </Switch>
+    </Box>
+);
 
 export default App;
