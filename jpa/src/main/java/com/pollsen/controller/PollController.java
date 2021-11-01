@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 public class PollController {
@@ -18,11 +19,14 @@ public class PollController {
     PollService pollService;
 
     @GetMapping("/polls")
-    public ResponseEntity<List<Poll>> getAllPolls() {
+    public ResponseEntity<List<Poll>> getAllPolls(@RequestParam(required = false) AtomicInteger accessCode) {
         List<Poll> polls;
 
         try {
-            polls = pollService.getPolls();
+            if (accessCode == null)
+                polls = pollService.getPolls();
+            else
+                polls = pollService.getPolls(accessCode);
 
             if (polls.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
