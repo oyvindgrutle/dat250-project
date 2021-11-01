@@ -16,9 +16,6 @@ public class PollUser {
     private String name;
     private boolean admin;
 
-    @OneToMany(mappedBy = "pollUser")
-    private final List<Poll> polls = new ArrayList<>();
-
     public PollUser() {
     }
 

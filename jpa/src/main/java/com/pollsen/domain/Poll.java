@@ -19,9 +19,6 @@ public class Poll {
     private Date startTime;
     private Date endTime;
 
-    @OneToMany(mappedBy = "poll")
-    private final List<Answer> answers = new ArrayList<>();
-
     @ManyToOne
     private PollUser pollUser;
 

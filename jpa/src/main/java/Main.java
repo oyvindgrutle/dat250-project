@@ -42,8 +42,6 @@ public class Main {
         poll.setPublic(true);
         poll.setPollUser(pollUser);
         em.persist(poll);
-        pollUser.getPolls().add(poll);
-        em.persist(poll);
         em.persist(pollUser);
 
         em.getTransaction().commit();
@@ -52,7 +50,6 @@ public class Main {
         for (PollUser user :
                 users) {
             System.out.println(user.getName());
-            System.out.println(user.getPolls().get(0).getQuestion());
         }
         System.out.println(users.size());
 
