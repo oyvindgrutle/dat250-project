@@ -1,6 +1,6 @@
 import com.pollsen.domain.Poll;
 import com.pollsen.domain.PollUser;
-import com.pollsen.domain.PollUserDAO;
+import com.pollsen.DAO.PollUserDAO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

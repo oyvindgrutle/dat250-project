@@ -1,52 +1,71 @@
-package com.pollsen.domain;
+package com.pollsen.DAO;
+
+import com.pollsen.domain.PollUser;
+import com.pollsen.repository.PollUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
+
 import java.util.List;
 
-public class AnswerDAO {
+
+public class PollUserDAO {
+
 
     private static final String PERSISTENCE_UNIT_NAME = "polls";
     private static EntityManagerFactory factory;
 
-    public static void insertAnswer(Answer answer) {
+    public void save(PollUser pollUser) {
+
+    }
+
+
+
+    public static void insertUser(PollUser pollUser) {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
 
         em.getTransaction().begin();
-        em.persist(answer);
+        em.persist(pollUser);
         em.getTransaction().commit();
     }
 
-    public static void updateAnswer(Answer answer) {
+    public static void updateUser(PollUser pollUser) {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
 
         em.getTransaction().begin();
-        em.remove(answer);
-        em.persist(answer);
+        em.remove(pollUser);
+        em.persist(pollUser);
         em.getTransaction().commit();
+
     }
 
-    public static void deleteAnswer(Answer answer) {
+    public static void deleteUser(PollUser pollUser) {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
 
         em.getTransaction().begin();
-        em.remove(answer);
+        em.remove(pollUser);
         em.getTransaction().commit();
     }
 
-    public static List<Answer> getAll() {
+
+    public static List<PollUser> getAll() {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
 
-        Query q = em.createQuery("select a from Answer a");
 
-        List<Answer> answers = q.getResultList();
+        Query q = em.createQuery("select pu from PollUser pu");
+        List<PollUser> users = q.getResultList();
 
-        return answers;
+        em.close();
+
+        return users;
     }
 }
