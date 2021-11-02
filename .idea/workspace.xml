@@ -4,7 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1e139f18-c9bf-4993-9e2a-8b14beada30e" name="Changes" comment="" />
+    <list default="true" id="1e139f18-c9bf-4993-9e2a-8b14beada30e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/controller/AuthenticationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/filters/JwtRequestFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpa/jpa.iml" beforeDir="false" afterPath="$PROJECT_DIR$/jpa/jpa.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/DTO/PollUserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/DTO/PollUserDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/application/LoadDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/application/LoadDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/application/RestServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/application/RestServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/domain/PollUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/domain/PollUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/security/MyUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/security/MyUserDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/security/SecurityConfigurer.java" beforeDir="false" afterPath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/security/SecurityConfigurer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/util/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/jpa/src/main/java/com/pollsen/util/JwtUtil.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -111,6 +124,7 @@
       <workItem from="1634711197180" duration="81000" />
       <workItem from="1635755129916" duration="6523000" />
       <workItem from="1635770042046" duration="10212000" />
+      <workItem from="1635849181106" duration="6733000" />
     </task>
     <servers />
   </component>
