@@ -13,16 +13,17 @@ public class PollUser {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
     private String username;
+    private String password;
     private String name;
     private boolean admin;
 
     public PollUser() {
     }
 
-    public PollUser(String username, String name, boolean admin) {
+    public PollUser(String username, String password, String name, boolean admin) {
         this.username = username;
+        this.password = password;
         this.name = name;
         this.admin = admin;
     }
-
 }

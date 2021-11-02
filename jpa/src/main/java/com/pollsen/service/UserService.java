@@ -40,7 +40,7 @@ public class UserService {
             pollService.getPollsByUserId(pollUser.getId()).forEach(poll -> {
                 pollIdList.add(poll.getId());
             });
-            pollUserList.add(new PollUserDTO(pollUser.getId(), pollUser.getUsername(), pollUser.getName(), pollUser.isAdmin(), pollIdList));
+            pollUserList.add(new PollUserDTO(pollUser.getId(), pollUser.getUsername(), pollUser.getPassword(), pollUser.getName(), pollUser.isAdmin(), pollIdList));
         });
 
         return pollUserList;
@@ -54,7 +54,7 @@ public class UserService {
             pollService.getPollsByUserId(pollUser.getId()).forEach(poll -> {
                 pollIdList.add(poll.getId());
             });
-            pollUserList.add(new PollUserDTO(pollUser.getId(), pollUser.getUsername(), pollUser.getName(), pollUser.isAdmin(), pollIdList));
+            pollUserList.add(new PollUserDTO(pollUser.getId(), pollUser.getUsername(), pollUser.getPassword(), pollUser.getName(), pollUser.isAdmin(), pollIdList));
         });
 
         return pollUserList;
@@ -67,7 +67,7 @@ public class UserService {
             pollService.getPollsByUserId(pollUser.getId()).forEach(poll -> {
                 pollIdList.add(poll.getId());
             });
-            return new PollUserDTO(pollUser.getId(), pollUser.getUsername(), pollUser.getName(), pollUser.isAdmin(), pollIdList);
+            return new PollUserDTO(pollUser.getId(), pollUser.getUsername(), pollUser.getPassword(), pollUser.getName(), pollUser.isAdmin(), pollIdList);
         }else{
             return null;
         }
