@@ -25,9 +25,12 @@ export const fetchPoll = (id: string): Promise<Response> => {
 };
 
 export const postAnswer = (answer: Answer): Promise<Response> => {
+    const jwt = localStorage.getItem("token");
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authentication': `Bearer ${jwt}`},
         body: JSON.stringify(answer),
     };
 
@@ -37,7 +40,8 @@ export const postAnswer = (answer: Answer): Promise<Response> => {
 export const authenticate = (username: string, password: string) => {
     const requestOptions = {
         method: 'POST',
-        headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'},
+        headers: {'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'},
         body: JSON.stringify({username, password}),
     };
     console.log(requestOptions);

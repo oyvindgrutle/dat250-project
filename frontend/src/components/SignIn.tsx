@@ -17,7 +17,7 @@ const postAuthentication = async (username: string, password: string) => {
     console.log("Authenticate");
     const response = await authenticate(username, password).then( result => result.json()).then(resultJSON => { 
         jwt = resultJSON.jwt;
-        console.log(jwt);
+        localStorage.setItem("token", jwt);
     });
 }
 
