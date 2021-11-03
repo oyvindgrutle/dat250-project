@@ -13,8 +13,11 @@ const handleAuthentication = (username: string, password: string) => {
 }
 
 const postAuthentication = async (username: string, password: string) => {
-    const response = await authenticate(username, password);
-    console.log(response);
+    let jwt;
+    console.log("Authenticate");
+    const response = await authenticate(username, password).then( result => result.json()).then(resultJSON => { 
+        jwt = resultJSON.jwt;
+    });
 }
 
 const SignIn = (): JSX.Element => {
@@ -27,12 +30,12 @@ const SignIn = (): JSX.Element => {
                 <form>
                     <VStack spacing="1rem">
                         <FormControl>
-                            <FormLabel>Email</FormLabel>
-                            <Input required type="email" />
+                            <FormLabel>Brukernavn</FormLabel>
+                            <Input name="username"/>
                         </FormControl>
                         <FormControl>
                             <FormLabel>Password</FormLabel>
-                            <Input required type="password" />
+                            <Input name="password" required type="password" />
                         </FormControl>
                         <FormControl>
                             <Center>

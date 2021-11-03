@@ -37,7 +37,9 @@ export const postAnswer = (answer: Answer): Promise<Response> => {
 export const authenticate = (username: string, password: string) => {
     const requestOptions = {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'},
         body: JSON.stringify({username, password}),
     };
+    console.log(requestOptions);
+    return fetch(`${URL}/authenticate`, requestOptions);
 }

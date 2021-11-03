@@ -24,15 +24,19 @@ public class AuthenticationController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @CrossOrigin(origins = "*")
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
+            System.out.println(authenticationRequest.getUsername());
+            System.out.println(authenticationRequest.getPassword());
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
         } catch (BadCredentialsException e) {
             throw new Exception("Bad credentials", e);
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String jwt = jwtUtil.generateToken(userDetails);
+        System.out.println(jwt);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 }
