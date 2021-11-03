@@ -30,8 +30,10 @@ class LoadDatabase {
             //log.info("Preloading all existing users " + repository.saveAll(PollUserDAO.getAll()));
             //log.info("Preloading all existing polls " + pollRepository.saveAll(PollDAO.getAll()));
             PollUser user1 = new PollUser("oyvind","password", "Oyvind Grutle", false);
+            PollUser pollUser2 = new PollUser("bo", "bo", "Blo Blaanes", false);
             Poll poll1 = new Poll("test poll", false, 00000, user1);
             log.info("Preloading " + repository.save(user1));
+            log.info("Preloading " + repository.save(pollUser2));
             log.info("Preloading " + pollRepository.save(poll1));
             log.info("Preloading " + answerRepository.save(new Answer(true, poll1)));
 
