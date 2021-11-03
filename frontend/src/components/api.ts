@@ -33,3 +33,11 @@ export const postAnswer = (answer: Answer): Promise<Response> => {
 
     return fetch(`${URL}/answers`, requestOptions);
 };
+
+export const authenticate = (username: string, password: string) => {
+    const requestOptions = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({username, password}),
+    };
+}

@@ -1,6 +1,21 @@
 import { Button, Center, Flex, FormControl, FormLabel, Heading, Input, Link, VStack } from '@chakra-ui/react';
 import React from 'react';
+import { authenticate } from './api';
 import Section from './Section';
+
+const handleAuthentication = (username: string, password: string) => {
+    const crendentials = {
+        username: username,
+        password: password,
+    };
+
+    
+}
+
+const postAuthentication = async (username: string, password: string) => {
+    const response = await authenticate(username, password);
+    console.log(response);
+}
 
 const SignIn = (): JSX.Element => {
     return (
@@ -21,7 +36,7 @@ const SignIn = (): JSX.Element => {
                         </FormControl>
                         <FormControl>
                             <Center>
-                                <Button type="submit" colorScheme="red">
+                                <Button onClick={() => postAuthentication("oyvind", "password")} type="submit" colorScheme="red">
                                     Sign in
                                 </Button>
                             </Center>
