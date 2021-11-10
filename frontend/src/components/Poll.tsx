@@ -1,7 +1,8 @@
 import { Center, Flex, Heading, Spinner } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchPoll, postAnswer, Poll as IPoll, Answer } from './api';
+import { fetchPoll, postAnswer } from '../api/api';
+import { Poll as IPoll } from '../lib/types';
 import { getLocalStorageItem, setLocalStorageItem } from '../utils';
 import AnswerButton from './AnswerButton';
 import ResultOverview from './ResultsOverview';

@@ -1,50 +1,62 @@
-import { Button, Center, Flex, FormControl, FormLabel, Heading, Input, Link, VStack } from '@chakra-ui/react';
+import { Button, Center, FormControl, FormLabel, Heading, Input, Link, VStack } from '@chakra-ui/react';
 import React from 'react';
-import { authenticate } from './api';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { authenticate } from '../api/api';
+import { setLocalStorageItem } from '../utils';
 import Section from './Section';
 
-const handleAuthentication = (username: string, password: string) => {
-    const crendentials = {
-        username: username,
-        password: password,
-    };
-
-    
-}
-
-const postAuthentication = async (username: string, password: string) => {
-    let jwt;
-    console.log("Authenticate");
-    const response = await authenticate(username, password).then( result => result.json()).then(resultJSON => { 
-        jwt = resultJSON.jwt;
-        localStorage.setItem("token", jwt);
-    });
+interface Inputs {
+    username: string;
+    password: string;
 }
 
 const SignIn = (): JSX.Element => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+    } = useForm<Inputs>();
+
+    const onSubmit: SubmitHandler<Inputs> = (data) => {
+        authenticate(data.username, data.password, false).then((response) =>
+            response.json().then((json) => setLocalStorageItem('token', json.jwt)),
+        );
+    };
+
     return (
         <Center>
             <Section mt="10%" w="40%">
                 <Heading mb="2rem" color="red.500">
                     Sign in
                 </Heading>
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <VStack spacing="1rem">
                         <FormControl>
                             <FormLabel>Brukernavn</FormLabel>
-                            <Input name="username"/>
+                            <Input
+                                id="username"
+                                placeholder="username"
+                                {...register('username', {
+                                    required: 'This is required',
+                                })}
+                            />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Password</FormLabel>
-                            <Input name="password" required type="password" />
+                            <Input
+                                id="password"
+                                placeholder="password"
+                                type="password"
+                                {...register('password', {
+                                    required: 'This is required',
+                                })}
+                            />
                         </FormControl>
-                        <FormControl>
-                            <Center>
-                                <Button onClick={() => postAuthentication("oyvind", "password")} type="submit" colorScheme="red">
-                                    Sign in
-                                </Button>
-                            </Center>
-                        </FormControl>
+                        <Center>
+                            <Button type="submit" colorScheme="red" isLoading={isSubmitting}>
+                                Sign in
+                            </Button>
+                        </Center>
                     </VStack>
                 </form>
                 <Center my="1rem">
