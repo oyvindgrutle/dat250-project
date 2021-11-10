@@ -6,6 +6,8 @@ import com.pollsen.domain.Poll;
 import com.pollsen.domain.PollUser;
 import com.pollsen.repository.PollUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,12 +17,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class UserService {
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @Autowired
     PollUserRepository pollUserRepository;
     @Autowired
     PollService pollService;
 
     public PollUser add(PollUser pollUser) {
+        pollUser.setPassword(passwordEncoder.encode(pollUser.getPassword()));
         return pollUserRepository.save(pollUser);
     }
 
