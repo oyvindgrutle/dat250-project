@@ -6,16 +6,11 @@ import Header from './components/Header';
 import NotFound from './components/NotFound';
 import Poll from './components/Poll';
 import SignIn from './components/SignIn';
-import { AuthContext } from './context/AuthContext';
-import { AuthContextState } from './lib/types';
-import { getLocalStorageItem } from './utils';
+import { AuthContext, AuthProvider } from './context/AuthContext';
 
 const App = (): JSX.Element => {
-    const [authState, setAuthState] = useState<AuthContextState | null>(null);
-    const value = useMemo(() => ({ authState, setAuthState }), [authState, setAuthState]);
-
     return (
-        <AuthContext.Provider value={value}>
+        <AuthProvider>
             <Box h="100vh" bgColor="red.100">
                 <Header />
                 <Switch>
@@ -36,7 +31,7 @@ const App = (): JSX.Element => {
                     </Route>
                 </Switch>
             </Box>
-        </AuthContext.Provider>
+        </AuthProvider>
     );
 };
 

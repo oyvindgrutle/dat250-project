@@ -1,7 +1,7 @@
-import { createContext, useContext } from 'react';
-import { getUserDetails } from '../api/api';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { authenticate, getUserDetails } from '../api/api';
 import { AccountInfo, AuthContextState } from '../lib/types';
-import { getLocalStorageItem } from '../utils';
+import { getLocalStorageItem, setLocalStorageItem } from '../utils';
 
 interface Props {
     children: JSX.Element;
@@ -24,16 +24,47 @@ const useAuth = () => {
 };
 
 const AuthProvider = ({ children }: Props) => {
-    const isAuthenticated = getLocalStorageItem('token') ? true : false;
+    const token = getLocalStorageItem('token');
 
-    const getAccount = async (token: string | null) => {
-        if (!token) return;
-        const response = await getUserDetails(token);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(token ? true : false);
+    const [account, setAccount] = useState<AccountInfo | null>(null);
+    const [inProgress, setInProgress] = useState<boolean>(false);
+
+    useEffect(() => {
+        const getAccount = async (token: string) => {
+            setInProgress(true);
+            const response = await getUserDetails(token);
+            const json = await response.json();
+            setAccount(json);
+            setInProgress(false);
+        };
+        if (token) getAccount(token);
+    }, [isAuthenticated, setIsAuthenticated]);
+
+    const login = async (username: string, password: string) => {
+        const response = await authenticate(username, password, false);
         const json = await response.json();
-        return json;
+        if (json.jwt) {
+            setLocalStorageItem('token', json.jwt);
+            setIsAuthenticated(true);
+        }
     };
 
-    const account = isAuthenticated ? getAccount(getLocalStorageItem('token')) : null;
+    const logout = () => {
+        localStorage.removeItem('token');
+        setIsAuthenticated(false);
+        setAccount(null);
+    };
 
-    const login = async () => {};
+    const contextValue: AuthContextState = {
+        isAuthenticated,
+        account,
+        login,
+        logout,
+        inProgress,
+    };
+
+    return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };
+
+export { useAuth, AuthProvider };

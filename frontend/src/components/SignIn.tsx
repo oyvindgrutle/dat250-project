@@ -2,6 +2,7 @@ import { Button, Center, FormControl, FormLabel, Heading, Input, Link, VStack } 
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { authenticate } from '../api/api';
+import { useAuth } from '../context/AuthContext';
 import { setLocalStorageItem } from '../utils';
 import Section from './Section';
 
@@ -11,6 +12,7 @@ interface Inputs {
 }
 
 const SignIn = (): JSX.Element => {
+    const authContext = useAuth();
     const {
         register,
         handleSubmit,
@@ -18,9 +20,7 @@ const SignIn = (): JSX.Element => {
     } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
-        authenticate(data.username, data.password, false).then((response) =>
-            response.json().then((json) => setLocalStorageItem('token', json.jwt)),
-        );
+        authContext.login(data.username, data.password);
     };
 
     return (
