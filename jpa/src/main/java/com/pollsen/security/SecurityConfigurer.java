@@ -30,10 +30,11 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-        http.csrf().disable().authorizeRequests().antMatchers("/authenticate", "/polls", "/users")
+        http.csrf().disable().authorizeRequests().antMatchers("/authenticate/signin", "/polls", "/users", "/authenticate/signup")
                 .permitAll().anyRequest().authenticated
                 ().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(requestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.cors().and().csrf().disable();
     }
 
     @Override

@@ -25,6 +25,8 @@ public class MyUserDetailsService implements UserDetailsService {
         if (!users.isEmpty()) {
             PollUserDTO user = userService.getUsers(username).get(0);
             String password = user.getPassword();
+            System.out.println(user.getUsername());
+
             return new User(username, password, new ArrayList<>());
         }
         throw new UsernameNotFoundException("Invalid username");
