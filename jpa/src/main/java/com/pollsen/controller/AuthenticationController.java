@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/auth")
 public class AuthenticationController {
 
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -34,7 +35,7 @@ public class AuthenticationController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/authenticate/signin", method = RequestMethod.POST)
+    @PostMapping(value = "/signin")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
             String username = authenticationRequest.getUsername();
@@ -58,7 +59,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
-    @RequestMapping(value = "/authenticate/signup", method = RequestMethod.POST)
+    @PostMapping(value = "/signup")
     public ResponseEntity<PollUser> SignUp(@RequestBody PollUser newPollUser) {
         try {
             PollUser pollUser = userService

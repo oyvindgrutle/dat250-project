@@ -3,6 +3,7 @@ package com.pollsen.controller;
 import com.pollsen.DTO.PollUserDTO;
 import com.pollsen.domain.PollUser;
 import com.pollsen.service.UserService;
+import com.pollsen.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    JwtUtil jwtUtil;
 
     @GetMapping("users")
     public ResponseEntity<List<PollUserDTO>> getAllUsers(@RequestParam(required = false) String username) {
@@ -36,7 +40,7 @@ public class UserController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    
     @GetMapping("/users/{id}")
     public ResponseEntity<PollUserDTO> getPollUserById(@PathVariable Long id) {
         PollUserDTO pollUser = userService.getUserDTOById(id);
