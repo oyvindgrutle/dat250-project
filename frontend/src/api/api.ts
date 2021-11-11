@@ -14,10 +14,11 @@ export const getUserDetails = (token: string): Promise<Response> => {
     const requestOptions = {
         method: 'GET',
         headers: {
-            Authentication: `Bearer ${token}`,
+            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${token}`,
         },
     };
-    return fetch(`${URL}/user/user-by-token`, requestOptions);
+    return fetch(`${URL}/user`, requestOptions);
 };
 
 export const postAnswer = (answer: Answer): Promise<Response> => {
@@ -26,7 +27,7 @@ export const postAnswer = (answer: Answer): Promise<Response> => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authentication: `Bearer ${jwt}`,
+            Authorization: `Bearer ${jwt}`,
         },
         body: JSON.stringify(answer),
     };
@@ -40,6 +41,5 @@ export const authenticate = (username: string, password: string, isRegistration:
         headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
     };
-    console.log(requestOptions);
-    return fetch(`${URL}/authenticate/${isRegistration ? 'signup' : 'signin'}`, requestOptions);
+    return fetch(`${URL}/auth/${isRegistration ? 'signup' : 'signin'}`, requestOptions);
 };

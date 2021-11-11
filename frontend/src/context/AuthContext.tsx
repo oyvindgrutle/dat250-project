@@ -24,8 +24,7 @@ const useAuth = () => {
 };
 
 const AuthProvider = ({ children }: Props) => {
-    const token = getLocalStorageItem('token');
-
+    const [token, setToken] = useState<string | null>(getLocalStorageItem('token'));
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(token ? true : false);
     const [account, setAccount] = useState<AccountInfo | null>(null);
     const [inProgress, setInProgress] = useState<boolean>(false);
@@ -46,12 +45,16 @@ const AuthProvider = ({ children }: Props) => {
         const json = await response.json();
         if (json.jwt) {
             setLocalStorageItem('token', json.jwt);
+            setToken(json.jwt);
             setIsAuthenticated(true);
+            return;
         }
+        console.log('couldnt log in');
     };
 
     const logout = () => {
         localStorage.removeItem('token');
+        setToken(null);
         setIsAuthenticated(false);
         setAccount(null);
     };

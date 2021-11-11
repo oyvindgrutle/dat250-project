@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -25,7 +26,8 @@ public class UserController {
 
     @GetMapping("user")
     public ResponseEntity<PollUserDTO> getUser(@RequestHeader HttpHeaders headers) {
-        String token = headers.getFirst(HttpHeaders.AUTHORIZATION);
+        String token = headers.getFirst(HttpHeaders.AUTHORIZATION).split(" ")[1];
+        System.out.println("token is: " + token);
         String username = jwtUtil.extractUsername(token);
         PollUserDTO pollUser = userService.getUserDTOByUsername(username);
 

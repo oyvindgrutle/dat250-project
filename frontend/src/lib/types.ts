@@ -15,8 +15,10 @@ export interface Answer {
 }
 
 export interface AccountInfo {
+    id: number;
     name: string;
     username: string;
+    admin: boolean;
     polls: number[];
 }
 
