@@ -51,7 +51,7 @@ public class UserService {
         return pollUserList;
     }
 
-    public List<PollUserDTO> getUsers(String username) {
+    public PollUserDTO getUserDTOByUsername(String username) {
         List<PollUserDTO> pollUserList = new ArrayList<>();
 
         pollUserRepository.findByUsername(username).forEach(pollUser -> {
@@ -61,8 +61,10 @@ public class UserService {
             });
             pollUserList.add(new PollUserDTO(pollUser.getId(), pollUser.getUsername(), pollUser.getPassword(), pollUser.getName(), pollUser.isAdmin(), pollIdList));
         });
+        PollUserDTO pollUserDTO = pollUserList.get(0);
 
-        return pollUserList;
+
+        return pollUserDTO;
     }
 
     public PollUserDTO getUserDTOById(long id) {

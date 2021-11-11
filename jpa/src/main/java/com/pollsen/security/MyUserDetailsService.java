@@ -21,14 +21,14 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        List<PollUserDTO> users = userService.getUsers(username);
-        if (!users.isEmpty()) {
-            PollUserDTO user = userService.getUsers(username).get(0);
+        try{
+            PollUserDTO user = userService.getUserDTOByUsername(username);
             String password = user.getPassword();
             System.out.println(user.getUsername());
-
             return new User(username, password, new ArrayList<>());
+
+        }catch (NullPointerException e) {
+            throw new UsernameNotFoundException("Invalid username");
         }
-        throw new UsernameNotFoundException("Invalid username");
     }
 }

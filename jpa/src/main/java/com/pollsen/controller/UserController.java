@@ -5,6 +5,7 @@ import com.pollsen.domain.PollUser;
 import com.pollsen.service.UserService;
 import com.pollsen.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,15 +22,26 @@ public class UserController {
     @Autowired
     JwtUtil jwtUtil;
 
+
+    @GetMapping("user")
+    public ResponseEntity<PollUserDTO> getUser(@RequestHeader HttpHeaders headers) {
+        String token = headers.getFirst(HttpHeaders.AUTHORIZATION);
+        String username = jwtUtil.extractUsername(token);
+        PollUserDTO pollUser = userService.getUserDTOByUsername(username);
+
+        if (!pollUser.equals(null)) {
+            return new ResponseEntity<>(pollUser, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping("users")
-    public ResponseEntity<List<PollUserDTO>> getAllUsers(@RequestParam(required = false) String username) {
+    public ResponseEntity<List<PollUserDTO>> getAllUsers() {
         List<PollUserDTO> pollUsers;
 
         try {
-            if (username == null)
-                pollUsers = userService.getUsers();
-            else
-                pollUsers = userService.getUsers(username);
+            pollUsers = userService.getUsers();
 
             if (pollUsers.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
