@@ -1,12 +1,13 @@
 import { Box } from '@chakra-ui/react';
-import { Switch, Route, Router } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import CodeBox from './components/CodeBox';
 import Header from './components/Header';
 import NotFound from './components/NotFound';
 import Poll from './components/Poll';
+import Profile from './components/Profile';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
-import { AuthContext, AuthProvider } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 
 const App = (): JSX.Element => {
     return (
@@ -19,6 +20,9 @@ const App = (): JSX.Element => {
                     </Route>
                     <Route path="/signin">
                         <SignIn />
+                    </Route>
+                    <Route path="/profile">
+                        <Profile />
                     </Route>
                     <Route exact path="/polls">
                         <Poll />

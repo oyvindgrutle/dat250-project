@@ -1,4 +1,4 @@
-import { Box, Grid, Text } from '@chakra-ui/react';
+import { Grid, Text } from '@chakra-ui/react';
 import React from 'react';
 import PollBar from './PollBar';
 

@@ -16,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -46,9 +47,14 @@ public class AuthenticationController {
             System.out.println(authenticationRequest.getPassword());
             //authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, hashedPassword));
 
-            if (passwordEncoder.matches(password, userDetailsService.loadUserByUsername(username).getPassword())){
-                System.out.println("Password matches");
-            } else throw new BadCredentialsException("Username and password don't match");
+
+            try {
+                if (passwordEncoder.matches(password, userDetailsService.loadUserByUsername(username).getPassword())) {
+                    System.out.println("Password matches");
+                } else throw new BadCredentialsException("Username and password don't match");
+            } catch (Exception e) {
+                return new ResponseEntity<>("{\"status\": 401}", HttpStatus.UNAUTHORIZED);
+            }
         } catch (Exception e) {
             System.out.println(e);
             throw new Exception("Bad credentials", e);

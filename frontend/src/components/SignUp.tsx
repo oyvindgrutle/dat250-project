@@ -1,6 +1,7 @@
-import { Button, Center, FormControl, FormLabel, Heading, Input, Link, VStack } from '@chakra-ui/react';
-import React from 'react';
+import { Button, Center, FormControl, FormLabel, Heading, Input, Link, Text, VStack } from '@chakra-ui/react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { authenticate } from '../api/api';
 import Section from './Section';
 
 interface Inputs {
@@ -13,11 +14,20 @@ const SignIn = (): JSX.Element => {
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { isSubmitting },
     } = useForm<Inputs>();
 
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
-        console.log(data);
+    const [error, setError] = useState<string>('');
+
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        setError('');
+        if (data.password !== data.confirmPassword) {
+            setError('Deia må jo stemma? Eller gjer dei da?');
+            return;
+        }
+        authenticate(data.username, data.password, true)
+            .then((res) => setError('Success!'))
+            .catch((err) => setError(err.message));
     };
 
     return (
@@ -60,6 +70,11 @@ const SignIn = (): JSX.Element => {
                                 })}
                             />
                         </FormControl>
+                        {error && (
+                            <Center>
+                                <Text>{error}</Text>
+                            </Center>
+                        )}
                         <Center>
                             <Button type="submit" colorScheme="red" isLoading={isSubmitting}>
                                 Sign up

@@ -50,7 +50,7 @@ const Poll = () => {
             setLoading(false);
         };
         fetchData();
-    }, [hasVoted]);
+    }, [id, hasVoted]);
 
     if (!id) {
         return <p>No poll-code provided</p>;

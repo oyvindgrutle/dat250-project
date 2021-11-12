@@ -1,4 +1,4 @@
-import { Center, FormControl, Heading, Input, VStack, LinkBox, LinkOverlay, Button } from '@chakra-ui/react';
+import { Button, Center, FormControl, Heading, Input, VStack } from '@chakra-ui/react';
 import React, { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router';
 import Section from './Section';

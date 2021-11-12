@@ -1,6 +1,5 @@
-import { Heading, Text, Center, Box } from '@chakra-ui/react';
+import { Box, Center, Heading, Text } from '@chakra-ui/react';
 import React from 'react';
-import Section from './Section';
 
 const NotFound = () => (
     <Center>

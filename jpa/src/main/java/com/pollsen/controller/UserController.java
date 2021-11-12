@@ -27,7 +27,7 @@ public class UserController {
     @GetMapping("user")
     public ResponseEntity<PollUserDTO> getUser(@RequestHeader HttpHeaders headers) {
         String token = headers.getFirst(HttpHeaders.AUTHORIZATION).split(" ")[1];
-        System.out.println("token is: " + token);
+        if (token == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         String username = jwtUtil.extractUsername(token);
         PollUserDTO pollUser = userService.getUserDTOByUsername(username);
 

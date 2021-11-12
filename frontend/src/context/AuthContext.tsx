@@ -10,7 +10,7 @@ interface Props {
 const initialState: AuthContextState = {
     isAuthenticated: false,
     account: null,
-    login: async () => undefined,
+    login: async () => 200,
     logout: () => undefined,
     inProgress: false,
 };
@@ -38,18 +38,21 @@ const AuthProvider = ({ children }: Props) => {
             setInProgress(false);
         };
         if (token) getAccount(token);
-    }, [isAuthenticated, setIsAuthenticated]);
+    }, [token, isAuthenticated, setIsAuthenticated]);
 
     const login = async (username: string, password: string) => {
+        setInProgress(true);
         const response = await authenticate(username, password, false);
         const json = await response.json();
         if (json.jwt) {
             setLocalStorageItem('token', json.jwt);
             setToken(json.jwt);
             setIsAuthenticated(true);
-            return;
+            setInProgress(false);
+            return response.status;
         }
-        console.log('couldnt log in');
+        setInProgress(false);
+        throw Error(`${response.status}`);
     };
 
     const logout = () => {

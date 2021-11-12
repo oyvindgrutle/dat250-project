@@ -25,7 +25,7 @@ export interface AccountInfo {
 export interface AuthContextState {
     isAuthenticated: boolean;
     account: AccountInfo | null;
-    login: (username: string, password: string) => Promise<void>;
+    login: (username: string, password: string) => Promise<number>;
     logout: () => void;
     inProgress: boolean;
 }
