@@ -1,4 +1,4 @@
-import { Center, Flex, Heading, Spinner } from '@chakra-ui/react';
+import { Button, Center, Flex, Heading, Link, Spinner, Stack, Text, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchPoll, postAnswer } from '../api/api';
@@ -46,7 +46,7 @@ const Poll = () => {
             setLoading(true);
             const response = await fetchPoll(id);
             const data = await response.json();
-            setPoll(data);
+            if (response.ok) setPoll(data);
             setLoading(false);
         };
         fetchData();
@@ -63,6 +63,12 @@ const Poll = () => {
                     <Center>
                         <Spinner />
                     </Center>
+                )}
+                {!poll && (
+                    <Flex flexDirection="column" justifyContent="center" alignItems="center">
+                        <Text fontSize="4rem">Poll not found</Text>
+                        <Link href="/">Take me back</Link>
+                    </Flex>
                 )}
                 {poll && (
                     <>
