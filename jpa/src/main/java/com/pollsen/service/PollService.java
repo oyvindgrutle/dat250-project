@@ -28,7 +28,7 @@ public class PollService {
         Integer accessCode = Integer.parseInt(String.format("%05d", counter.incrementAndGet()));
 
         PollUser pollUser = userService.getUserById(poll.getPollUser().getId()).get();
-        Poll newPoll = new Poll(poll.getQuestion(), poll.isPublic(), accessCode, pollUser);
+        Poll newPoll = new Poll(poll.getQuestion(), poll.isPublic(), poll.getStartTime(), poll.getEndTime(), accessCode, pollUser);
         return pollRepository.save(newPoll);
     }
 

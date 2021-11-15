@@ -26,9 +26,11 @@ public class Poll {
 
     public Poll() { }
 
-    public Poll(String question, boolean isPublic, Integer accessCode, PollUser pollUser){
+    public Poll(String question, boolean isPublic, Date startTime, Date endTime, Integer accessCode, PollUser pollUser){
         this.question = question;
         this.isPublic = isPublic;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.accessCode = accessCode;
         this.pollUser = pollUser;
 
