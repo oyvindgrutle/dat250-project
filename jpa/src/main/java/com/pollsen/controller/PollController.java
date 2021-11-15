@@ -2,6 +2,7 @@ package com.pollsen.controller;
 
 import com.pollsen.DTO.PollDTO;
 import com.pollsen.domain.Poll;
+import com.pollsen.messaging.RabbitMQSender;
 import com.pollsen.repository.PollRepository;
 import com.pollsen.service.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 public class PollController {
+
+    @Autowired
+    RabbitMQSender rabbitMQSender;
 
     @Autowired
     PollService pollService;
@@ -74,6 +78,7 @@ public class PollController {
         try {
             Poll poll = pollService
                     .add(newPoll);
+            rabbitMQSender.send(newPoll);
             return new ResponseEntity<>(poll, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
