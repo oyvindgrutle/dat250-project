@@ -1,12 +1,16 @@
 package com.pollsen.DTO;
 
-import java.sql.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
 
 public class PollDTO {
 
     private Long id;
     private String question;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
     private int numYes;
     private int numNo;

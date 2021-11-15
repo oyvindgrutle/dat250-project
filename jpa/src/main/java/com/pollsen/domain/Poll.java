@@ -1,5 +1,6 @@
 package com.pollsen.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,7 +19,9 @@ public class Poll {
     private String question;
     private Integer accessCode;
     private boolean isPublic;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
 
     @ManyToOne
