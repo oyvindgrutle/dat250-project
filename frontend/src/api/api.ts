@@ -35,6 +35,26 @@ export const postAnswer = (answer: Answer): Promise<Response> => {
     return fetch(`${URL}/answers`, requestOptions);
 };
 
+export const createPoll = (question: string, isPublic: boolean, startTime: number, endTime: number, userID: number) => {
+    const body = {
+        question,
+        public: isPublic,
+        startTime,
+        endTime,
+        pollUser: {
+            id: userID,
+        },
+    };
+
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+    };
+
+    return fetch(`${URL}/polls`, requestOptions);
+};
+
 export const authenticate = (username: string, password: string, isRegistration: boolean) => {
     const requestOptions = {
         method: 'POST',

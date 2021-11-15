@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { Route, Switch } from 'react-router-dom';
 import CodeBox from './components/CodeBox';
+import CreatePoll from './components/CreatePoll';
 import Header from './components/Header';
 import NotFound from './components/NotFound';
 import Poll from './components/Poll';
@@ -26,6 +27,9 @@ const App = (): JSX.Element => {
                     </Route>
                     <Route exact path="/polls">
                         <Poll />
+                    </Route>
+                    <Route path="/create">
+                        <CreatePoll />
                     </Route>
                     <Route path="/polls/:id">
                         <Poll />

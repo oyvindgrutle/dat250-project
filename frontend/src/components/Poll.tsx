@@ -1,10 +1,13 @@
 import { Button, Center, Flex, Heading, Link, Spinner, Stack, Text, VStack } from '@chakra-ui/react';
+import { isBefore, isFuture, isPast } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchPoll, postAnswer } from '../api/api';
 import { Poll as IPoll } from '../lib/types';
 import { getLocalStorageItem, setLocalStorageItem } from '../utils';
 import AnswerButton from './AnswerButton';
+import Countdown from './Countdown';
+import useCountdown from '../hooks/useCountdown';
 import ResultOverview from './ResultsOverview';
 import Section from './Section';
 
@@ -64,23 +67,42 @@ const Poll = () => {
                         <Spinner />
                     </Center>
                 )}
-                {!poll && (
+                {!poll && !loading && (
                     <Flex flexDirection="column" justifyContent="center" alignItems="center">
                         <Text fontSize="4rem">Poll not found</Text>
                         <Link href="/">Take me back</Link>
                     </Flex>
                 )}
-                {poll && (
+                {poll && !loading && (
                     <>
                         <Heading mb="2rem" color="red.500" textAlign="center">
                             {poll.question}
                         </Heading>
                         {!hasVoted && (
                             <>
-                                <Flex gridGap="1rem" bg="gray.100" p="1rem" alignItems="center" justifyContent="center">
-                                    <AnswerButton onClick={() => handleVote(true)} buttonType="yes" />
-                                    <AnswerButton onClick={() => handleVote(false)} buttonType="no" />
-                                </Flex>
+                                {isFuture(new Date(poll.startTime)) && (
+                                    <>
+                                        <Heading textAlign="center">Poll opens in:</Heading>
+                                        <Countdown date={new Date(poll.startTime)} />
+                                    </>
+                                )}
+                                {isFuture(new Date(poll.endTime)) && isPast(new Date(poll.startTime)) && (
+                                    <>
+                                        <Flex
+                                            gridGap="1rem"
+                                            bg="gray.100"
+                                            p="1rem"
+                                            alignItems="center"
+                                            justifyContent="center"
+                                        >
+                                            <AnswerButton onClick={() => handleVote(true)} buttonType="yes" />
+                                            <AnswerButton onClick={() => handleVote(false)} buttonType="no" />
+                                        </Flex>
+                                        <Countdown date={new Date(poll.endTime)} />
+                                    </>
+                                )}
+
+                                {isPast(new Date(poll.endTime)) && <Heading textAlign="center">Poll is closed</Heading>}
                             </>
                         )}
                         {hasVoted && <ResultOverview numYes={poll.numYes} numNo={poll.numNo} />}
