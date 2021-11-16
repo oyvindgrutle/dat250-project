@@ -3,6 +3,7 @@ package com.pollsen.service;
 import com.pollsen.DTO.PollDTO;
 import com.pollsen.domain.Poll;
 import com.pollsen.domain.PollUser;
+import com.pollsen.dweet.DweetService;
 import com.pollsen.messaging.RabbitMQSender;
 import com.pollsen.repository.PollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class PollService {
     UserService userService;
     @Autowired
     AnswerService answerService;
+    @Autowired
+    DweetService dweetService;
+
 
     private final AtomicInteger counter = new AtomicInteger();
 
@@ -34,7 +38,8 @@ public class PollService {
 
         PollUser pollUser = userService.getUserById(poll.getPollUser().getId()).get();
         Poll newPoll = new Poll(poll.getQuestion(), poll.isPublic(), poll.getStartTime(), poll.getEndTime(), accessCode, pollUser);
-        rabbitMQSender.send(newPoll);
+        //rabbitMQSender.send(newPoll);
+        dweetService.send(newPoll, true);
         return pollRepository.save(newPoll);
     }
 

@@ -28,11 +28,11 @@ public class DweetService {
 
         if (open) {
             status = "open";
-            delay = new Date(poll.getStartTime().getTime() - System.currentTimeMillis());
+            delay = poll.getStartTime();
             send(poll, false);
         } else {
             status = "closed";
-            delay = new Date(poll.getEndTime().getTime()-poll.getStartTime().getTime());
+            delay = poll.getEndTime();
         }
         taskScheduler.schedule(() -> {
             try {
