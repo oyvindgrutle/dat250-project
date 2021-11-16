@@ -12,7 +12,7 @@ public class RabbitMQSender {
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
-    @Value("exchange")
+    @Value("logs")
     private String exchange;
 
     @Value("routing")

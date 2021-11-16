@@ -18,7 +18,7 @@ public class RabbitMQConfig {
     @Value("queue")
     String queueName;
 
-    @Value("exchange")
+    @Value("logs")
     String exchange;
 
     @Value("routing")
