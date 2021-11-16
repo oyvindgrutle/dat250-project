@@ -19,9 +19,9 @@ public class Poll {
     private String question;
     private Integer accessCode;
     private boolean isPublic;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     private Date startTime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     private Date endTime;
 
     @ManyToOne

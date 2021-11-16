@@ -8,9 +8,9 @@ public class PollDTO {
 
     private Long id;
     private String question;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     private Date startTime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     private Date endTime;
     private int numYes;
     private int numNo;
