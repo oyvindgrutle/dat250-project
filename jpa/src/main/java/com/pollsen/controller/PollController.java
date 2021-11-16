@@ -2,6 +2,7 @@ package com.pollsen.controller;
 
 import com.pollsen.DTO.PollDTO;
 import com.pollsen.domain.Poll;
+import com.pollsen.dweet.DweetService;
 import com.pollsen.messaging.RabbitMQSender;
 import com.pollsen.repository.PollRepository;
 import com.pollsen.service.PollService;
@@ -16,6 +17,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 public class PollController {
+
+    @Autowired
+    DweetService dweetService;
 
     @Autowired
     RabbitMQSender rabbitMQSender;
@@ -79,6 +83,7 @@ public class PollController {
             Poll poll = pollService
                     .add(newPoll);
             rabbitMQSender.send(newPoll);
+            dweetService.send(newPoll, true);
             return new ResponseEntity<>(poll, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
