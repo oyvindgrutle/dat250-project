@@ -2,6 +2,8 @@ package com.pollsen.dweet;
 
 import com.pollsen.DTO.PollDTO;
 import com.pollsen.domain.Poll;
+import com.pollsen.messaging.RabbitMQSender;
+import com.pollsen.service.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.Async;
@@ -20,6 +22,12 @@ import java.util.Date;
 public class DweetService {
 
     @Autowired
+    PollService pollService;
+
+    @Autowired
+    RabbitMQSender rabbitMQSender;
+
+    @Autowired
     private TaskScheduler taskScheduler;
 
     public void send(Poll poll, boolean open) {
@@ -33,6 +41,7 @@ public class DweetService {
         } else {
             status = "closed";
             delay = poll.getEndTime();
+            rabbitMQSender.send(pollService.getPollDTOById(poll.getId()));
         }
         taskScheduler.schedule(() -> {
             try {

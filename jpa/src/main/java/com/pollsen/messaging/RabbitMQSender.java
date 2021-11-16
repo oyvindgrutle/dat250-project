@@ -1,6 +1,6 @@
 package com.pollsen.messaging;
 
-import com.pollsen.domain.Poll;
+import com.pollsen.DTO.PollDTO;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,7 @@ public class RabbitMQSender {
     @Value("routing")
     private String routingkey;
 
-    public void send(Poll poll){
+    public void send(PollDTO poll){
         rabbitTemplate.convertAndSend(exchange, routingkey, poll);
         System.out.println("Send message " + poll);
     }

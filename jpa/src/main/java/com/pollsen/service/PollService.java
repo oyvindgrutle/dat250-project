@@ -18,9 +18,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class PollService {
 
     @Autowired
-    RabbitMQSender rabbitMQSender;
-
-    @Autowired
     PollRepository pollRepository;
     @Autowired
     UserService userService;
@@ -38,7 +35,6 @@ public class PollService {
 
         PollUser pollUser = userService.getUserById(poll.getPollUser().getId()).get();
         Poll newPoll = new Poll(poll.getQuestion(), poll.isPublic(), poll.getStartTime(), poll.getEndTime(), accessCode, pollUser);
-        //rabbitMQSender.send(newPoll);
         dweetService.send(newPoll, true);
         return pollRepository.save(newPoll);
     }
