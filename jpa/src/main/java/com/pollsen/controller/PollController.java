@@ -19,6 +19,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class PollController {
 
     @Autowired
+    DweetService dweetService;
+
+    @Autowired
     PollService pollService;
 
     @GetMapping("/polls")
@@ -76,6 +79,7 @@ public class PollController {
         try {
             Poll poll = pollService
                     .add(newPoll);
+            dweetService.send(poll, true);
             return new ResponseEntity<>(poll, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

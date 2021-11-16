@@ -23,8 +23,6 @@ public class PollService {
     UserService userService;
     @Autowired
     AnswerService answerService;
-    @Autowired
-    DweetService dweetService;
 
 
     private final AtomicInteger counter = new AtomicInteger();
@@ -35,7 +33,6 @@ public class PollService {
 
         PollUser pollUser = userService.getUserById(poll.getPollUser().getId()).get();
         Poll newPoll = new Poll(poll.getQuestion(), poll.isPublic(), poll.getStartTime(), poll.getEndTime(), accessCode, pollUser);
-        dweetService.send(newPoll, true);
         return pollRepository.save(newPoll);
     }
 
