@@ -1,15 +1,23 @@
-import { Button, Center, FormControl, Heading, Input, VStack } from '@chakra-ui/react';
+import { Button, Center, FormControl, Heading, Input, VStack, Text } from '@chakra-ui/react';
 import React, { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router';
+import { useAuth } from '../context/AuthContext';
 import Section from './Section';
 
 const CodeBox = (): JSX.Element => {
     const [code, setCode] = useState<string>('');
     const history = useHistory();
 
+    const authContext = useAuth();
+
     const handleSubmit = async (evt: FormEvent) => {
         evt.preventDefault();
         history.push(`/polls/${code}`);
+    };
+
+    const handleCreate = () => {
+        if (authContext.account) history.push('/create');
+        else history.push('/signin');
     };
 
     return (
@@ -25,12 +33,14 @@ const CodeBox = (): JSX.Element => {
                         </FormControl>
                         <FormControl mt="1rem">
                             <Center>
-                                <Button type="submit" onSubmit={handleSubmit}>
+                                <Button type="submit" colorScheme="red" onSubmit={handleSubmit}>
                                     Go!
                                 </Button>
                             </Center>
                         </FormControl>
                     </form>
+                    <Text>or</Text>
+                    <Button onClick={handleCreate}>Create Poll</Button>
                 </VStack>
             </Section>
         </Center>
