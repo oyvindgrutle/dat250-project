@@ -3,6 +3,7 @@ package com.pollsen.service;
 import com.pollsen.DTO.PollDTO;
 import com.pollsen.domain.Poll;
 import com.pollsen.domain.PollUser;
+import com.pollsen.messaging.RabbitMQSender;
 import com.pollsen.repository.PollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class PollService {
+
+    @Autowired
+    RabbitMQSender rabbitMQSender;
+
     @Autowired
     PollRepository pollRepository;
     @Autowired
@@ -29,6 +34,7 @@ public class PollService {
 
         PollUser pollUser = userService.getUserById(poll.getPollUser().getId()).get();
         Poll newPoll = new Poll(poll.getQuestion(), poll.isPublic(), poll.getStartTime(), poll.getEndTime(), accessCode, pollUser);
+        rabbitMQSender.send(newPoll);
         return pollRepository.save(newPoll);
     }
 
