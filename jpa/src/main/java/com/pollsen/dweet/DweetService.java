@@ -41,11 +41,13 @@ public class DweetService {
         } else {
             status = "closed";
             delay = poll.getEndTime();
-            rabbitMQSender.send(pollService.getPollDTOById(poll.getId()));
         }
         taskScheduler.schedule(() -> {
             try {
                 sendPost(poll, status);
+                if (status == "closed") {
+                    rabbitMQSender.send(pollService.getPollDTOById(poll.getId()));
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
